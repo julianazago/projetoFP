@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Fluxo de Caixa{% endblock titulo %}
+
+{% block conteudo %}
+
+ <form role="form" method="POST" action="/caixas/fluxoPesquisar/" >{% csrf_token %}
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-5">          
+          <div id="datetimepicker1" class="input-append date " style="float: left; ">
+            <input type="text" name="data1" placeholder="De:">
+            <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>         
+          <div id="datetimepicker2" class="input-append date " >
+            <input type="text" name="data2" placeholder="Até:">
+            <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-2" align="center">
+          <button type="submit" class="btn btn-primary">Pesquisar <span class="glyphicon glyphicon-search"></span></button>
+        </div>
+      </div>
+    </div>  
+  </form>
+
+</div>
+<hr>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Pessoa</th>
+        <th>R$</th>
+        <th>Descrição</th>
+        <th>Data</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for conta in contas %}
+      <tr>
+        <td>{{ conta.pessoa.nome }}</td>
+        <td>{{ conta.valor }}</td>
+        <td>{{ conta.descricao }}</td>
+        <td>{{ conta.data|date:"d/m/Y" }}</td>
+        <td>{{ conta.tipo }}</td>
+      </tr>
+    {% endfor %}  
+    <tr>
+    <td colspan="4"></td>
+    <td><b>Total: </b>{{ total }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+ <button class="btn btn-primary" onclick="window.print();">Imprimir <span class="glyphicon glyphicon-print"></span></button>
+
+{% endblock conteudo %}
